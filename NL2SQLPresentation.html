@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NL2SQL Research Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .slide {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .slide-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #4a5568;
+        }
+
+        .slide-content p {
+            margin-bottom: 18px;
+        }
+
+        .visual-diagram {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .tools-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .tool-name {
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .research-process {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .process-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .process-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .process-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .outcomes-visual {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .outcome-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .outcome-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .bullet-point {
+            margin: 12px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .bullet-point::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            break-inside: avoid-page;
+        }
+
+        .challenge-card {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .challenge-card::before {
+            content: '⚠️';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #ffeaa7;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .tools-architecture {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .tool-node {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+        }
+        .tool-subtitle {
+            font-weight: 500;
+            margin: 8px 0 4px;
+            color: #475569;
+            font-size: 14px;
+        }
+        .tool-details {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .tool-tag {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .tool-subtitle {
+        font-weight: 500;
+        margin: 8px 0 4px;
+        color: #475569;
+        font-size: 14px;
+    }
+        .strength-indicator {
+            background: #48bb78;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .weakness-indicator {
+            background: #e53e3e;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .phases-breakdown {
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .phase-column {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+
+        .phase-column::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            height: 5px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .phase-column:nth-child(1)::before { background: #667eea; }
+        .phase-column:nth-child(2)::before { background: #764ba2; }
+        .phase-column:nth-child(3)::before { background: #48bb78; }
+
+        .methodology-flow {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .methodology-flow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 80%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            z-index: 0;
+        }
+
+        .methodology-flow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 80%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            z-index: 0;
+        }
+
+        .step-connection {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .connection-arrow {
+            font-size: 2rem;
+            color: #667eea;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .accuracy-visualization {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .accuracy-visualization::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: move 3s linear infinite;
+        }
+
+        @keyframes move {
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(-45%, -45%); }
+        }
+
+        .accuracy-text {
+            position: relative;
+            z-index: 1;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .pipeline-visual {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .pipeline-step {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        .pipeline-step::after {
+            content: '▶';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .pipeline-step:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Business Need -->
+        <div class="slide">
+            <h1 class="slide-title">Business Need : Why NL2SQL Must Evolve for Real Business Use</h1>
+            <div class="slide-content">
+                <div class="visual-diagram">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">Bridging the Gap Between Data Access and Decision-Making in Natural Language</h3>
+                    <div style="display: flex; justify-content: space-around; align-items: center; margin: 25px 0; flex-wrap: wrap; gap: 20px;">
+                        <div style="text-align: center; background: #e6f3ff; padding: 20px; border-radius: 10px; flex: 1; min-width: 150px;">
+                            <div style="width: 40px; height: 40px; background: #667eea; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">DEV</div>
+                            <strong>Developers & Analysts</strong>
+                            <div style="font-size: 0.9rem; margin-top: 5px; color: #666;">Traditional Users</div>
+                        </div>
+                        <div style="font-size: 2rem; color: #667eea;">→</div>
+                        <div style="text-align: center; background: #f0f8ff; padding: 20px; border-radius: 10px; flex: 1; min-width: 150px;">
+                            <div style="width: 40px; height: 40px; background: #764ba2; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">BIZ</div>
+                            <strong>Everyday Decision-Makers</strong>
+                            <div style="font-size: 0.9rem; margin-top: 5px; color: #666;">Growing Need</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>In today’s business landscape, many real-world scenarios depend on generating accurate SQL from natural language queries  whether through NL2SQL agents or embedded tools. As organizations increasingly rely on these systems for data access and decision-making, it becomes critical that NL2SQL solutions are not only functional but also resilient, trustworthy, and production-ready. However, while current tools demonstrate strengths in specific areas like query generation, validation, or correction, they often lack a unified, end-to-end solution that works reliably across business context , required accuracy/groundedness for the given context</p>
+                <p>For this we conducted a focused analysis of five prominent NL2SQL tools  Vanna.ai, Defog SQLCoder, LangChain, GCP NL2SQL, and Samitugal’s converter  with the goal of uncovering reusable patterns and prompt design strategies. Rather than just benchmarking performance, we aimed to understand how these tools structure logic at the prompt level and how that influences the system’s behavior. These insights form the basis of a unified prompting framework designed to improve SQL reliability, manage schema complexity, and support intelligent self-correction. This foundational work directly supports the development of robust, enterprise-aligned NL2SQL systems.</p>
+                <h3 style="text-align: left; margin-bottom: 20px; color: #2d3748;">Motivation Behind the Research</h3>
+                <p>This work was inspired by a clear and growing need to make structured data more accessible to non-technical users or business applications or AI agent to send NL + context to get accurate SQL queries. While many NL2SQL tools promise natural language access to databases, most fall short in delivering enterprise-grade reliability  particularly around consistent accuracy, schema comprehension, and error correction. By analyzing how leading tools approach their prompt structure, RAG or fine tuned models, this research aims to identify patterns that can close this gap. The significance lies in enabling a more inclusive data experience where everyday users or business applications can ask questions in natural language and receive accurate, validated SQL responses.</p>
+                <h3 style="text-align: left; margin-bottom: 20px; color: #2d3748;">Defining Your Target & Supporting It</h3>
+                <p>The intended outcome of this research is to build a unified, production-ready NL2SQL prompting framework. By analysing , understanding and comparing five prominent tools  Vanna.ai, Defog SQLCoder, LangChain, GCP NL2SQL, and Samitugal’s converter  we’ve identified the most effective strategies across SQL generation, validation, and correction phases. Our approach involved harvesting real prompts, testing them in a custom nl2sql agent, and tuning them for modular reuse with required evaluation to benchmark the quality especially from accuracy, relevancy and groundedness. This work supports the broader goal of delivering a more resilient, accurate, and adaptable NL2SQL system that can scale to diverse business contexts.</p>
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">Turning Business Questions into Data Answers</h3>
+                <div class="visual-diagram">
+                    <div class="flow-diagram">
+                        <div class="flow-step">Natural Language Query</div>
+                        <div class="flow-step">NL2SQL System</div>
+                        <div class="flow-step">Executable SQL</div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); padding: 20px; border-radius: 12px; margin: 25px 0; text-align: center; border-left: 5px solid #f39c12;">
+                    <strong style="color: #856404;">The opportunity is exciting but realizing it in practice requires a thoughtful, strategic approach.</strong>
+                </div>
+                
+                <div class="visual-diagram">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">Current NL2SQL Tools Landscape</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #48bb78;">
+                            <div style="width: 30px; height: 30px; background: #48bb78; border-radius: 4px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">SAG</div>
+                            <strong>Schema-Aware Generation</strong>
+                        </div>
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #48bb78;">
+                            <div style="width: 30px; height: 30px; background: #48bb78; border-radius: 4px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">VFL</div>
+                            <strong>Validation and Fixing Layers</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>Many existing NL2SQL tools have introduced valuable ideas, from schema-aware generation to validation layers. Yet across the board, we see a common theme: consistent accuracy, contextual grounding, and query correction still require refinement to meet enterprise-grade expectations.</p>
+                
+                <div class="visual-diagram">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">Enterprise-Grade Requirements</h3>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap;">
+                        <div style="background: #fff; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #e74c3c; box-shadow: 0 4px 8px rgba(231,76,60,0.1);">
+                            <div style="width: 40px; height: 40px; background: #e74c3c; border-radius: 4px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">ACC</div>
+                            <strong>Consistent Accuracy</strong>
+                            <div style="font-size: 0.9rem; color: #c92a2a; margin-top: 5px;">Needs Refinement</div>
+                        </div>
+                        <div style="background: #fff; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #e74c3c; box-shadow: 0 4px 8px rgba(231,76,60,0.1);">
+                            <div style="width: 40px; height: 40px; background: #e74c3c; border-radius: 4px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">CTX</div>
+                            <strong>Contextual Grounding</strong>
+                            <div style="font-size: 0.9rem; color: #c92a2a; margin-top: 5px;">Needs Refinement</div>
+                        </div>
+                        <div style="background: #fff; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #e74c3c; box-shadow: 0 4px 8px rgba(231,76,60,0.1);">
+                            <div style="width: 40px; height: 40px; background: #e74c3c; border-radius: 4px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">QRY</div>
+                            <strong>Query Correction</strong>
+                            <div style="font-size: 0.9rem; color: #c92a2a; margin-top: 5px;">Needs Refinement</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 15px; margin: 25px 0;">
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <div style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">⚡</div>
+                        <h3>Prompt Engineering</h3>
+                    </div>
+                    <p style="text-align: center; font-size: 1.1rem; margin: 0;">More than the model itself, the quality of these systems is shaped by how they're prompted. It becomes a foundational design layer.</p>
+                </div>
+                
+                <div class="visual-diagram">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">Impact Areas</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #667eea; display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: #667eea; border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">STR</div>
+                            <div>
+                                <strong>Structure Inputs</strong>
+                                <div style="font-size: 0.9rem; margin-top: 5px; color: #666;">How we organize information</div>
+                            </div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #667eea; display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: #667eea; border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">INT</div>
+                            <div>
+                                <strong>Interpret Schema</strong>
+                                <div style="font-size: 0.9rem; margin-top: 5px; color: #666;">Understanding database structure +/- sample record</div>
+                            </div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #667eea; display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: #667eea; border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">AMB</div>
+                            <div>
+                                <strong>Handle Ambiguity</strong>
+                                <div style="font-size: 0.9rem; margin-top: 5px; color: #666;">Managing unclear queries</div>
+                            </div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #667eea; display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: #667eea; border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.8rem;">REC</div>
+                            <div>
+                                <strong>Recover from Errors</strong>
+                                <div style="font-size: 0.9rem; margin-top: 5px; color: #666;">Correction mechanisms</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px; padding: 15px; background: #e6f3ff; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <strong>The way we structure inputs, interpret schema, handle ambiguity, and recover from errors directly influences how usable and trustworthy the NL2SQL agent becomes.</strong>
+                    </div>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 25px 0; text-align: center; border-left: 5px solid #2c3e50;">
+                    <div style="width: 40px; height: 40px; background: #2c3e50; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">🔧</div>
+                    <strong style="color: #2d3748;">This is where our research is intentionally focused.</strong>
+                </div>
+                
+                <div class="visual-diagram">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">Research Foundation Approach</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex: 1; min-width: 200px; text-align: center; border-top: 4px solid #667eea;">
+                            <strong>Study Patterns</strong>
+                        </div>
+                        <div style="font-size: 1.5rem; color: #667eea;">→</div>
+                        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex: 1; min-width: 200px; text-align: center; border-top: 4px solid #764ba2;">
+                            <strong>Identify Strengths</strong>
+                        </div>
+                        <div style="font-size: 1.5rem; color: #667eea;">→</div>
+                        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex: 1; min-width: 200px; text-align: center; border-top: 4px solid #48bb78;">
+                            <strong>Architectural Decisions</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <p>Before moving into implementation, we've taken the time to study the patterns, strengths, and architectural decisions behind today's leading NL2SQL tools. By mapping how they approach SQL generation, validation, and correction through prompts, we now have a clear view of what's working and where thoughtful improvements can elevate reliability and user experience.</p>
+                
+                <div class="visual-diagram">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">Core Benefits</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 20px 0;">
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; border-top: 3px solid #48bb78;">
+                            <strong>Greater Clarity</strong>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; border-top: 3px solid #667eea;">
+                             <strong>Less Ambiguity</strong>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);text-align: center; border-top: 3px solid #764ba2;">
+                            <strong>Improved Reliability</strong>
+                        </div>
+                    </div>
+                </div>
+                
+               
+            </div>
+        </div>
+    </div>      
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem with Market Available Tools -->
+        <div class="slide">
+            <h1 class="slide-title">Problem with the Market Available Tools</h1>
+            <div class="slide-content">
+                <p>As NL2SQL adoption gains momentum, several tools have emerged each approaching the challenge with its own strengths. Over the course of this research, we examined five such systems in depth: Vanna.ai, Defog's SQLCoder, LangChain, Google Cloud's NL2SQL pipeline, and Samitugal's converter. These tools introduced a variety of valuable design patterns from retrieval-augmented prompting and modular chaining to structured repair flows and XML-based prompt control.</p>
+                <p>What became evident, however, is that while innovation is active, a unified approach is still evolving. Across the three core phases SQL generation, validation, and correction tools tend to emphasize different aspects based on their design intent. Some prioritize context injection for generation, others lean into structured evaluation or repair, but few implement the entire pipeline with consistent depth and portability.</p>
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;"> Core Phases of an NL2SQL Converter</h3>
+                <div class="phases-breakdown">
+                    <div class="phase-column">
+                        <h3>SQL Generation</h3>
+                        <p>Generates SQL query with the natural language statement given as input</p>
+                    </div>
+                    <div class="phase-column">
+                        <h3>Validation</h3>
+                        <p>Validates the generated query factually and seeks grounding</p>
+                    </div>
+                    <div class="phase-column">
+                        <h3>Correction</h3>
+                        <p>Analyses any syntactically errors on the generated query even though they are factually correct</p>
+                    </div>
+                </div>
+                
+                <p>In practice, several common design considerations faced challenges such as:</p>
+                
+                <div class="challenges-grid">
+                    <div class="challenge-card">
+                        <strong>Schema Handling</strong><br>
+                        Often varies in flexibility, especially when table relationships or joins are implied.
+                    </div>
+                    <div class="challenge-card">
+                        <strong>Validation Strategies</strong><br>
+                        Range from implicit checking to structured evaluation, but consistency and coverage vary.
+                    </div>
+                    <div class="challenge-card">
+                        <strong>Recovery Logic</strong><br>
+                        Present in some cases, but modular integration and reusability across schemas are still maturing.
+                    </div>
+                    <div class="challenge-card">
+                        <strong>Prompt Structures</strong><br>
+                        Often tailored to the tool's internal workflow, which makes adaptation or generalization more effort-intensive.
+                    </div>
+                    <div class="challenge-card">
+                        <strong>Correction Logic</strong><br>
+                        Where available, tends to be closely tied to the system's model behavior, limiting portability.
+                    </div>
+                </div>
+                <div>
+                <p>To quote the researched tool's Strengths and Weaknesses</p>
+                        <div class="tools-architecture">
+
+                            <div class="tool-node">
+                                <strong>Vanna.ai</strong>
+                                <div class="tool-subtitle">Approach</div>
+                                <div class="tool-details">
+                                    <span class="tool-tag">Gen: Prompt + RAG</span>
+                                    <span class="tool-tag">Eval: Execution & Source</span>
+                                    <span class="tool-tag">Fix: LLM Prompt</span>
+                                </div>
+                                <div class="strength-indicator">Strong Retrieval</div>
+                                <div class="weakness-indicator">Minimal Validation</div>
+                            </div>
+
+                            <div class="tool-node">
+                                <strong>SQLCoder</strong>
+                                <div class="tool-subtitle">Approach</div>
+                                <div class="tool-details">
+                                    <span class="tool-tag">Gen: Prompt with fine tuned model</span>
+                                    <span class="tool-tag">Eval: JSON-Based Retry Validator</span>
+                                    <span class="tool-tag">Fix: Auto Correction via Prompt Flow</span>
+                                </div>
+                                <div class="strength-indicator">Auto error fixing logic</div>
+                                <div class="weakness-indicator">Limited Modularity</div>
+                            </div>
+
+                            <div class="tool-node">
+                                <strong>LangChain</strong>
+                                <div class="tool-subtitle">Approach</div>
+                                <div class="tool-details">
+                                    <span class="tool-tag">Gen: Agent + ToolChain</span>
+                                    <span class="tool-tag">Eval: Optional Custom Callback</span>
+                                    <span class="tool-tag">Fix: Manual Repair via Tools</span>
+                                </div>
+                                <div class="strength-indicator">E2E support through agents and tools</div>
+                                <div class="weakness-indicator">No automatic support</div>
+                            </div>
+
+                            <div class="tool-node">
+                                <strong>GCP NL2SQL</strong>
+                                <div class="tool-subtitle">Approach</div>
+                                <div class="tool-details">
+                                    <span class="tool-tag">Gen: CoT-Linked Prompt</span>
+                                    <span class="tool-tag">Eval: Intermediate Feedback</span>
+                                    <span class="tool-tag">Fix: Stepwise Repair with Templates</span>
+                                </div>
+                                <div class="strength-indicator">Utilises CoT</div>
+                                <div class="weakness-indicator">Template rigidity affects flexibility</div>
+                            </div>
+
+                            <div class="tool-node">
+                                <strong>Samitugal</strong>
+                                <div class="tool-subtitle">Approach</div>
+                                <div class="tool-details">
+                                    <span class="tool-tag">Gen: XML-Controlled Prompt</span>
+                                    <span class="tool-tag">Eval: None</span>
+                                    <span class="tool-tag">Fix: None</span>
+                                </div>
+                                <div class="strength-indicator">Offers precision through template</div>
+                                <div class="weakness-indicator">No Evaluation or error analysis</div>
+                            </div>
+
+                        </div>
+
+
+                </div>
+
+                <p>This pattern suggests an opportunity: while each tool contributes meaningfully to the space, there remains room to bridge isolated strengths into a more cohesive, adaptable system. Our research set out to understand these architectural choices at the prompt level not just what these tools do, but how they guide LLM behavior through structured prompts across phases.</p>
+                
+                <p>This analysis allowed us to surface patterns worth scaling, decisions that could benefit from modularization, and gaps that, if addressed, can accelerate the development of a more robust and reusable NL2SQL prompting framework.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Research Approach -->
+        <div class="slide">
+            <h1 class="slide-title">Defining the Target</h1>
+            <div class="slide-content">
+                <p>This research was designed to do more than benchmark tools it set out to produce something the core NL2SQL team could directly act on. The focus was to study how existing systems use prompts across three critical phases SQL generation, evaluation, and correction and build a unified, production-aligned strategy based on those findings.</p>
+
+                <p>The approach followed a structured progression:</p>
+
+                <div class="methodology-flow">
+                    <div class="process-box">
+                        <div class="process-number">1</div>
+                        <div class="process-title">Tool-Level Prompt Dissection</div>
+                        <p>A research was conducted with deep-dive analysis of five leading tools: Vanna.ai, Defog SQLCoder, LangChain, GCP NL2SQL, and Samitugal's converter. The goal wasn't just to observe functionality it was to reverse-engineer how prompts were architected.</p>
+                        <p>We documented where prompts were injected, how they interacted with schema and metadata, and what structures were used to control generation and fallback behaviour.</p>
+                    </div>
+
+                    <div class="process-box">
+                        <div class="process-number">2</div>
+                        <div class="process-title">Prompt Harvesting and Categorization</div>
+                        <p>For each tool, we harvested real system prompts and sorted them into the three core stages:</p>
+                        <div class="bullet-point">Generation: guiding how SQL is initially formed</div>
+                        <div class="bullet-point">Evaluation: assessing whether the query is correct or valid</div>
+                        <div class="bullet-point">Correction: adjusting or retrying when errors occur</div>
+                        <p>This provided a complete prompt-level view of each tool's approach strengths, gaps, and reuse potential.</p>
+                    </div>
+
+                    <div class="process-box">
+                        <div class="process-number">3</div>
+                        <div class="process-title">Custom Agent Prototyping</div>
+                        <p>To operationalize the findings, we built a custom Python-based NL2SQL agent and testing it against OpenAI. This agent allowed us to test prompts in a controlled pipeline where:</p>
+                        <div class="pipeline-visual">
+                            <div class="pipeline-step">Natural Language Query Input</div>
+                            <div class="pipeline-step">SQL Generated</div>
+                            <div class="pipeline-step">Evaluation Validates</div>
+                            <div class="pipeline-step">Correction Triggered</div>
+                        </div>
+                        <p>This gave us full control to experiment with flow behavior, simulate edge cases, and tune modular logic with measurable outcomes.</p>
+                    </div>
+
+                    <div class="process-box">
+                        <div class="process-number">4</div>
+                        <div class="process-title">Prompt Unification and Flow Expansion</div>
+                        <p>Based on testing, we began tuning and unifying prompts across categories. Rather than reusing full tool pipelines, we extracted the most effective design patterns combining retry logic from Defog, flow structure from GCP, prompt modularity from Samitugal, and context retrieval from Vanna.</p>
+                        <p>We also began extending the prototype to simulate an end-to-end flow from question to validated, corrected query to reflect how a real production agent would behave.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: What This Enables -->
+        <div class="slide">
+            <h1 class="slide-title">What This Enables</h1>
+            <div class="slide-content">
+                <p>The outcome of this work is not just a prompt inventory it's a well-structured, thoughtfully prepared foundation designed to support the NL2SQL with practical, ready-to-use assets</p>
+
+                <div class="outcomes-visual">
+                    <div class="outcome-item">
+                        <div class="outcome-icon">📚</div>
+                        <p>A modular, categorized prompt library grouped by function (generation, evaluation, correction), informed by real-world tool strategies, and ready for plug-in reuse</p>
+                    </div>
+                    <div class="outcome-item">
+                        <div class="outcome-icon">🔧</div>
+                        <p>Prompt sets that have been tested, iterated, and tuned through a custom-built prototype to mitigate common failure points observed across tools</p>
+                    </div>
+                    <div class="outcome-item">
+                        <div class="outcome-icon">🔄</div>
+                        <p>A simulated flow that reflects how a real agent might operate covering generation through correction, with recovery paths built in to validate prompt behavior end-to-end</p>
+                    </div>
+                    <div class="outcome-item">
+                        <div class="outcome-icon">⚡</div>
+                        <p>A reduction in downstream effort: instead of receiving raw harvested prompts, we can utilise pre-tuned, system-ready patterns that can be extended, not reinvented</p>
+                    </div>
+                </div>
+
+                <div class="accuracy-visualization">
+                    <div class="accuracy-text">
+                        And most importantly, early testing of these tuned prompts against diverse schema structures has shown accuracy rates approaching 100% for the cases evaluated reinforcing that these aren't just usable, they're reliable
+                    </div>
+                </div>
+                <div class="slide-content" style="margin-top: 30px;">
+                <h1 class="slide-title">Summary: Delivering Reliable Natural Language Data Access for the Enterprise</h1>
+                <p>This research distills critical insights from a hands-on evaluation of five leading NL2SQL tools — <strong>Vanna.ai, SQLCoder, LangChain, GCP NL2SQL, and Samitugal</strong> — with the goal of identifying what makes an NL2SQL system accurate, resilient, and ready for enterprise use. By reverse-engineering how each system handles query generation, validation, and correction, we surfaced reusable prompt patterns and architectural decisions that consistently improve system reliability.</p>
+                <p>More than a comparison, this work produced a practical, modular prompt framework — rigorously tested in a custom NL2SQL agent — that is capable of handling schema complexity, ambiguous input, and factual correction with minimal fallback. Early testing shows near-perfect accuracy across evaluated cases.</p>
+                <p>This summary should inform leaders looking to:</p>
+                <ul style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Equip AI agents or non-technical users with self-serve data access</li>
+                    <li>Reduce dependency on analytics teams for everyday SQL tasks</li>
+                    <li>Invest in a prompting foundation that scales across tools, models, and schemas</li>
+                </ul>
+                <p>The result is not just improved performance — it’s a strategy for operationalizing natural language data access across the business, with the confidence that answers returned are both accurate and grounded.</p>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
