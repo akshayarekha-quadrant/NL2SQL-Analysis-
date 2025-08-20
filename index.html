@@ -672,35 +672,35 @@
                         <div class="tools-architecture">
 
                             <div class="tool-node">
-                                <strong>Vanna.ai</strong>
+                                <strong><a href="https://vanna.ai" target="_blank" style="color: #2d3748; text-decoration: none;">Vanna.ai</a></strong>
                                 <div class="tool-subtitle">Approach</div>
                                 <div class="tool-details">
-                                    <span class="tool-tag">Gen: Prompt + RAG</span>
+                                    <span class="tool-tag">Gen: Prompt + RAG <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generating%20SQL%20Query%20Prompt/vanna_ai.md#vannaai-sql-generation" target="_blank" class="prompt-link">Prompt</a></span>
                                     <span class="tool-tag">Eval: Execution & Source</span>
-                                    <span class="tool-tag">Fix: LLM Prompt</span>
+                                    <span class="tool-tag">Fix: LLM Prompt <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generated%20SQL%20Fixer%20Prompts/vanna_ai.md#fix-sql-prompt" target="_blank" class="prompt-link">Prompt</a></span>
                                 </div>
                                 <div class="strength-indicator">Strong Retrieval</div>
                                 <div class="weakness-indicator">Minimal Validation</div>
                             </div>
 
                             <div class="tool-node">
-                                <strong>SQLCoder</strong>
+                                <strong><a href="https://github.com/defog-ai/sqlcoder" target="_blank" style="color: #2d3748; text-decoration: none;">SQLCoder</a></strong>
                                 <div class="tool-subtitle">Approach</div>
                                 <div class="tool-details">
-                                    <span class="tool-tag">Gen: Prompt with fine tuned model</span>
-                                    <span class="tool-tag">Eval: JSON-Based Retry Validator</span>
-                                    <span class="tool-tag">Fix: Auto Correction via Prompt Flow</span>
+                                    <span class="tool-tag">Gen: Prompt with fine tuned model <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generating%20SQL%20Query%20Prompt/defog_ai.md#sql-generation-prompts" target="_blank" class="prompt-link">Prompt</a></span>
+                                    <span class="tool-tag">Eval: JSON-Based Retry Validator <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generated%20SQL%20Eval%20Prompts/defog_ai.md#sql-evaluation-prompts" target="_blank" class="prompt-link">Prompt</a></span>
+                                    <span class="tool-tag">Fix: Auto Correction via Prompt Flow <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generated%20SQL%20Fixer%20Prompts/defog_ai.md#auto-error-analysis-prompts" target="_blank" class="prompt-link">Prompt</a></span>
                                 </div>
                                 <div class="strength-indicator">Auto error fixing logic</div>
                                 <div class="weakness-indicator">Limited Modularity</div>
                             </div>
 
                             <div class="tool-node">
-                                <strong>LangChain</strong>
+                                <strong><a href="https://www.langchain.com" target="_blank" style="color: #2d3748; text-decoration: none;">LangChain</a></strong>
                                 <div class="tool-subtitle">Approach</div>
                                 <div class="tool-details">
-                                    <span class="tool-tag">Gen: Agent + ToolChain</span>
-                                    <span class="tool-tag">Eval: Optional Custom Callback</span>
+                                    <span class="tool-tag">Gen: Agent + ToolChain <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generating%20SQL%20Query%20Prompt/langchain.md#sql-general-dialect-specific-and-validation-prompts" target="_blank" class="prompt-link">Prompt</a></span>
+                                    <span class="tool-tag">Eval: Optional Custom Callback <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generated%20SQL%20Eval%20Prompts/langchain.md#validation-prompts" target="_blank" class="prompt-link">Prompt</a></span>
                                     <span class="tool-tag">Fix: Manual Repair via Tools</span>
                                 </div>
                                 <div class="strength-indicator">E2E support through agents and tools</div>
@@ -708,11 +708,11 @@
                             </div>
 
                             <div class="tool-node">
-                                <strong>GCP NL2SQL</strong>
+                                <strong><a href="https://cloud.google.com/bigquery" target="_blank" style="color: #2d3748; text-decoration: none;">GCP NL2SQL</a></strong>
                                 <div class="tool-subtitle">Approach</div>
                                 <div class="tool-details">
-                                    <span class="tool-tag">Gen: CoT-Linked Prompt</span>
-                                    <span class="tool-tag">Eval: Intermediate Feedback</span>
+                                    <span class="tool-tag">Gen: CoT-Linked Prompt <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generating%20SQL%20Query%20Prompt/GCP.md#sql-generation-system-prompt" target="_blank" class="prompt-link">Prompt</a></span>
+                                    <span class="tool-tag">Eval: Intermediate Feedback <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generated%20SQL%20Eval%20Prompts/GCP.md#evaluation-system-prompt" target="_blank" class="prompt-link">Prompt</a></span>
                                     <span class="tool-tag">Fix: Stepwise Repair with Templates</span>
                                 </div>
                                 <div class="strength-indicator">Utilises CoT</div>
@@ -723,7 +723,7 @@
                                 <strong>Samitugal</strong>
                                 <div class="tool-subtitle">Approach</div>
                                 <div class="tool-details">
-                                    <span class="tool-tag">Gen: XML-Controlled Prompt</span>
+                                    <span class="tool-tag">Gen: XML-Controlled Prompt <a href="https://github.com/akshayarekha-quadrant/NL2SQL-Harvested-Prompts/blob/main/Generating%20SQL%20Query%20Prompt/xmlbasedtool.md#system-prompt-provided-as-xml-template" target="_blank" class="prompt-link">Prompt</a></span>
                                     <span class="tool-tag">Eval: None</span>
                                     <span class="tool-tag">Fix: None</span>
                                 </div>
